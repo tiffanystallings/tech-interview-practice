@@ -7,7 +7,8 @@ should look like question2(a), and return a string.
 Edge Cases:
 An empty string will return itself, as will a string
 with only one character.
-A string with no palindromes will return an empty string.
+A string with no palindromes will return the first
+character, as a single letter is technically a palindrome.
 
 I plan on eliminating spaces and special characters
 in order to account for longer, more complex palindromic
@@ -113,8 +114,24 @@ def question2(a):
         ss = a[x:y]
         if len(ss) > len(longest) and check_reverse(ss):
             longest = ss
-    
-    return longest
 
+    """
+    If a longest palindrome was found, return it. Else,
+    return the first letter of the string as single letters
+    can be palindromes.
+    """
+    if longest:
+        return longest
+    else:
+        return a[0]
+
+print ('Expecting ""')
+print (question2(''))
+print ('Expecting "a"')
+print (question2('a'))
+print ('Expecting "a"')
+print (question2('abcd'))
+print ('Expecting "amanaplanacanalpanama"')
 print (question2('A man, a plan, a canal: Panama.'))
+print ('Expecting "racecar"')
 print (question2('The racecar is mine'))
