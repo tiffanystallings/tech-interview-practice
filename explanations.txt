@@ -1,0 +1,219 @@
+Question 1:
+Given two strings s and t, determine whether
+some anagram of t is a substring of s.
+For example: if s = "udacity" and t = "ad",
+then the function returns True. Your function
+definition should look like: question1(s, t)
+and return a boolean True or False.
+---
+
+If the length of s is less than the length of t,
+I'll return false as s cannot contain an anagram
+of t. If s is an empty string, I'll return false
+because s cannot contain any substrings. However,
+if t is an empty string, I'll return true as 
+technically all strings can contain an empty
+substring.
+
+I knew I needed to loop through both strings in
+some fashion. I decided the fastest way to track
+occurances of t would be to map it to a dictionary,
+as the lookup time would be faster than just
+using an array.
+
+I wanted to loop through all substrings of s and
+check the characters against the anagram
+dictionary.
+
+Space efficiency for this algorithm is O(m), where
+m represents t. This is from the dictionary I use
+to represent t.
+
+Speed efficiency is more complicated. Where s is
+stable and t varies, t's impact on efficiency is
+parabolic. It hits its longest runtime at about
+1/2 s. This is because the algorithm will stop
+checking for anagams at the index of s[-t], as
+there's no sense in continuing to check at that
+point. For s, the increase is pretty much linear.
+It will run t times at most of its indices on
+an average case.
+
+Because of this, I'll say the speed efficiency is
+about O(1/2nm).
+
+
+Question 2:
+Given a string a, find the longest palindromic
+substring contained in a. Your function definition
+should look like question2(a), and return a string.
+---
+
+I decided an empty string will return itself, as
+will a string with only one character. A string with
+no palindromes will return the first character, as
+a single letter is technically a palindrome.
+
+I plan on eliminating spaces and special characters
+in order to account for longer, more complex
+palindromic phrases like "A man, a plan, a canal:
+Panama."
+
+I use a dictionary like a graph to save a list of all
+indices where a character occurs. As palindromes need to
+begin and end with the same letter, I use the indices
+of characters with more than one occurance to create
+'edges'. These edges are substrings that I can then
+check against their reverse and find the longest anagram.
+
+My space efficiency will be about O(1/2 n^2) in the
+worst case as I'm saving unique combinations of two
+indices to a list.
+
+As I will then need to iterate over that list, my speed
+efficiency will be about O(1/2 n^2) as well.
+
+
+Question 3:
+Given an undirected graph G, find the minimum
+spanning tree within G. A minimum spanning tree
+connects all vertices in a graph with the
+smallest possible total weight of edges. Your
+function should take in and return an adjacency
+list structured like this:
+{'A': [('B', 2)],
+ 'B': [('A', 2), ('C', 5)], 
+ 'C': [('B', 5)]}
+ ---
+
+ This reminds me of the travelling salesman
+problem, which means finding an efficient answer
+could be tricky.
+
+Edge cases:
+A graph with no edges will return None. ie:
+{'A': [],
+ 'B': [],
+ 'C': []...
+
+ >>> None
+
+Empty adjacency lists will return None.
+
+I'll also be testing with the following graph from
+the wikipedia article on minimum spanning trees.
+{'A': [('B', 4), ('C', 3), ('D', 10), ('E', 18)],
+ 'B': [('A', 4), ('C', 1), ('F', 4)],
+ 'C': [('A', 3), ('B', 1), ('F', 5), ('D', 9)],
+ 'D': [('A', 10), ('C', 9), ('E', 8), ('F', 7), ('G', 8), ('H', 9)],
+ 'E': [('A', 18), ('D', 8), ('H', 9), ('I', 9)],
+ 'F': [('B', 4), ('C', 5), ('D', 7), ('G', 9), ('J', 9)],
+ 'G': [('D', 8), ('F', 9), ('H', 2), ('J', 2)],
+ 'H': [('D', 9), ('E', 9), ('G', 2), ('I', 3), ('J', 4)],
+ 'I': [('E', 9), ('H', 3), ('J', 6)],
+ 'J': [('F', 9), ('G', 2), ('H', 4), ('I', 6)]}
+
+I decided to conduct a breadth-first search to find a path from the
+first node to the last. To keep track of lineage, I alter the
+dictionary to include parents and children. The breadth-first search
+runs at about O(n), as it needs to check all nodes and edges once.
+
+In order to find the shortest tree, I need to check this algorithm
+using each node of G. I'll simplify this to say that running the
+breadth-first search will happen about O(n) times.
+
+Overall, the runtime of this algorithm is about O(n^2).
+
+For memory, I ended up saving an extra copy of the original graph
+with a few extra features. I also keep a result graph. This
+technically puts space efficiency at over O(2n). I need to make
+graphs n times in order to find the best option. So my space
+efficiency is also O(n^2).
+
+While it doesn't find the exact best answer, it gets pretty close.
+In the case of the example from wikipedia, it's over by about 4.
+
+
+Question 4:
+Find the least common ancestor between two nodes on
+a binary search tree. The least common ancestor is
+the farthest node from the root that is an ancestor
+of both nodes. For example, the root is a common
+ancestor of all nodes on the tree, but if both nodes
+are descendents of the root's left child, then that
+left child might be the lowest common ancestor. You
+can assume that both nodes are in the tree, and the
+tree itself adheres to all BST properties. The function
+definition should look like question4(T, r, n1, n2),
+where T is the tree represented as a matrix, where
+the index of the list is equal to the integer stored
+in that node and a 1 represents a child node, r is a
+non-negative integer representing the root, and n1
+and n2 are non-negative integers representing the two
+nodes in no particular order. For example, one test
+case might be:
+
+question4([[0, 1, 0, 0, 0],
+           [0, 0, 0, 0, 0],
+           [0, 0, 0, 0, 0],
+           [1, 0, 0, 0, 1],
+           [0, 0, 0, 0, 0]],
+          3,
+          1,
+          4)
+and the answer would be 3.
+---
+
+If the function is provided an empty matrix, I'll
+output None. Otherwise, I'll output an integer.
+
+Since I can assume the BST follows normal rules and the
+inputs will be represented in the tree, the only other
+edge case I will test for is a very large BST.
+
+As this is a binary search tree, it should be fairly
+simple for me to conduct a binary search to locate
+my elements. As I traverse the tree for the first
+element, I plan on keeping a log of the path taken.
+I can traverse that path again and see where it
+breaks with the path to the second element.
+
+I know that a basic binary search algorithm will
+run at O(log n), so I know that mine will be about
+the same on a best case. Average case will run at
+O(√n), because I'll be iterating over about 1/2 of
+√n elements for a depth of log n and repeating
+the depth once more for the second number.
+
+The memory efficiency will also be about O(log n), as
+I will be saving the path I take as I traverse the
+tree, and I know that traversing a binary search tree
+happens in log n time.
+
+
+Question 5:
+Find the element in a singly linked list that's
+m elements from the end. For example, if a linked
+list has 5 elements, the 3rd element from the end
+is the 3rd element. The function definition should
+look like question5(ll, m), where ll is the first
+node of a linked list and m is the "mth number
+from the end". You should copy/paste the Node class
+below to use as a representation of a node in the
+linked list. Return the value of the node at that
+position.
+---
+If the algorithm takes in a None type object, or a
+linked list that has fewer elements than m, it will
+return None. Otherwise, it will return the data from
+the node it selects.
+
+I plan on traversing the linked list first and
+storing the values in an array, from which I will
+return the -mth element in the array.
+
+Since I only have to traverse the linked list once,
+this will run at O(n) speed to traverse the list.
+
+It will also require O(n) memory, as the size of the
+array I'll be saving is the size of the linked list.

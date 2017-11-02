@@ -75,6 +75,7 @@ def question2(a):
             for j in l[i+1:]:
                 edge = (l[i], j)
                 edges.append(edge)
+        print (len(edges))
         return edges
         
     """
@@ -82,13 +83,12 @@ def question2(a):
     already palindromes themselves. Also return
     any inputs that are already palindromes.
     """
+    a = format_string(a)
     if len(a)<= 1:
         return a
-
     if check_reverse(a):
         return a
     
-    a = format_string(a)
     m = char_map(a)
     edges = []
     longest = ''
@@ -135,3 +135,5 @@ print ('Expecting "amanaplanacanalpanama"')
 print (question2('A man, a plan, a canal: Panama.'))
 print ('Expecting "racecar"')
 print (question2('The racecar is mine'))
+
+print (question2('aaaaaaaaaaaab'))

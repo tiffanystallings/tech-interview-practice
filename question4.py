@@ -46,10 +46,14 @@ breaks with the path to the second element.
 I know that a basic binary search algorithm will
 run at O(log n), so I know that mine will be about
 the same on a best case. Average case will run at
-O(√n). I'll then need to iterate over the depth
-of the graph, which could -- at worst -- mean
-log n comparisons. Overall, average case of this
-algorithm will run at O(√n).
+O(√n), because I'll be iterating over about 1/2 of
+√n elements for a depth of log n and repeating
+the path up to log n times.
+
+The memory efficiency will also be about O(log n), as
+I will be saving the path I take as I traverse the
+tree, and I know that traversing a binary search tree
+happens in log n time.
 """
 
 def question4(T, r, n1, n2):
