@@ -4,7 +4,7 @@ of their Full Stack Web Development Nanodegree program.
 
 ## Installation
 Using Git Bash:
-`git clone http://github.com/tiffanystallings/tech-interview-practice`
+`git clone http://github.com/tiffanystallings/tech-interview-practice.git`
 
 ## Requirements
 This program requires Python 3 to run.
